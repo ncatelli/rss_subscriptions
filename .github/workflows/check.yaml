@@ -20,4 +20,4 @@ jobs:
             ./.rss_checker/cache
           key: ncatelli-rss-feed-check-cache
       - name: Run Feed Check
-        run: docker run --rm -v $PWD/.rss_checker/cache:/workdir/.rss_checker/cache -v $PWD/conf:/workdir/conf -t rss_checker:0.1.0-pre -cache-dir /workdir/.rss_checker/cache/ -conf-dir /workdir/conf/
+        run: docker run --rm -v $PWD/.rss_checker/cache:/workdir/.rss_checker/cache -v $PWD/conf:/workdir/conf -t ghcr.io/ncatelli/rss_checker:0.1.0-pre -cache-dir /workdir/.rss_checker/cache/ -conf-dir /workdir/conf/
