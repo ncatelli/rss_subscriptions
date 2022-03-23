@@ -1,0 +1,23 @@
+name: Check the feed for changes 
+on:
+  schedule:
+    - cron: "0 10 * * *"
+
+jobs:
+  check_feed:
+    name: Run feed check 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: main
+      - name: Create Cache Dir If Not Existing
+        run: mkdir -p .rss_checker/cache
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ./.rss_checker/cache
+          key: ncatelli-rss-feed-check-cache
+      - name: Run Feed Check
+        run: docker run --rm -v $PWD/.rss_checker/cache:/workdir/.rss_checker/cache -v $PWD/conf:/workdir/conf -t rss_checker:0.1.0-pre -cache-dir /workdir/.rss_checker/cache/ -conf-dir /workdir/conf/
