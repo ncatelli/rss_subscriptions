@@ -1,7 +1,10 @@
 name: Check the feed for changes 
 on:
+  pull_request:
+    branches:
+      - main
   schedule:
-    - cron: "0 10 * * *"
+    - cron: "0 15 * * *"
 
 jobs:
   check_feed:
