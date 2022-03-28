@@ -13,6 +13,8 @@ jobs:
   check_feed:
     name: Run feed check 
     runs-on: ubuntu-latest
+    outputs:
+      feed_output: ${{ steps.feed_check.outputs.new }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -24,6 +26,15 @@ jobs:
             ./.rss_checker/cache
           key: ncatelli-rss-feed-check-cache
       - name: Create Cache Dir If Not Existing
-        run: mkdir -p .rss_checker/cache && chmod 777 .rss_checker/cache
+        run: |
+          mkdir -p .rss_checker/cache
+          chmod 777 .rss_checker/cache
       - name: Run Feed Check
-        run: docker run --rm -v $PWD/.rss_checker/cache:/workdir/.rss_checker/cache -v $PWD/conf:/workdir/conf ghcr.io/ncatelli/rss_checker:0.1.0-pre -cache-path /workdir/.rss_checker/cache/ -conf-path /workdir/conf/
+        id: feed_check
+        run: echo "::set-output name=new::$(docker run --rm -v $PWD/.rss_checker/cache:/workdir/.rss_checker/cache -v $PWD/conf:/workdir/conf ghcr.io/ncatelli/rss_checker:0.1.0-pre -cache-path /workdir/.rss_checker/cache/ -conf-path /workdir/conf/)" 
+  notify:
+    name: Notify of new publications
+    runs-on: ubuntu-latest
+    needs: check_feed
+    steps:
+      - run: echo ${{needs.check_feed.outputs.feed_output}} 
