@@ -28,11 +28,7 @@ jobs:
             ./.rss_checker/cache
           key: ncatelli-rss-feed-check-cache
       - name: Fix Cache Dir Permissions 
-        run: |
-          chmod -R 777 .rss_checker/cache
-          ls -lah
-          ls -lah .rss_checker
-          ls -lah .rss_checker/cache/
+        run: chmod -R 777 .rss_checker/cache
       - name: Run Feed Check
         id: feed_check
         run: echo "::set-output name=new::$(docker run --rm -v $PWD/.rss_checker/cache:/workdir/.rss_checker/cache -v $PWD/conf:/workdir/conf ghcr.io/ncatelli/rss_checker:0.1.0-pre -cache-path /workdir/.rss_checker/cache/ -conf-path /workdir/conf/)" 
