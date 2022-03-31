@@ -20,15 +20,19 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: main
+      - name: Create Cache Dir If Not Existing
+        run: mkdir -p .rss_checker/cache
       - uses: actions/cache@v3
         with:
           path: |
             ./.rss_checker/cache
           key: ncatelli-rss-feed-check-cache
-      - name: Create Cache Dir If Not Existing
+      - name: Fix Cache Dir Permissions 
         run: |
-          mkdir -p .rss_checker/cache
-          chmod 777 .rss_checker/cache
+          chmod -R 777 .rss_checker/cache
+          ls -lah
+          ls -lah .rss_checker
+          ls -lah .rss_checker/cache/
       - name: Run Feed Check
         id: feed_check
         run: echo "::set-output name=new::$(docker run --rm -v $PWD/.rss_checker/cache:/workdir/.rss_checker/cache -v $PWD/conf:/workdir/conf ghcr.io/ncatelli/rss_checker:0.1.0-pre -cache-path /workdir/.rss_checker/cache/ -conf-path /workdir/conf/)" 
