@@ -38,4 +38,10 @@ jobs:
     needs: check_feed
     if: ${{ contains(needs.check_feed.outputs.feed_output, 'http') }}
     steps:
-      - run: echo ${{needs.check_feed.outputs.feed_output}} 
+      - run: echo ${{ needs.check_feed.outputs.feed_output }} 
+      - name: Post to discord
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        uses: Ilshidur/action-discord@0.3.2
+        with:
+          args: ${{ needs.check_feed.outputs.feed_output }}
