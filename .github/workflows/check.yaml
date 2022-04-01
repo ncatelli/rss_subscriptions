@@ -36,7 +36,7 @@ jobs:
     name: Notify of new publications
     runs-on: ubuntu-latest
     needs: check_feed
-    if: ${{ contains(needs.check_feed.outputs.feed_output, 'http') }}
+    if: ${{ github.event_name != 'pull_request' && contains(needs.check_feed.outputs.feed_output, 'http') }}
     steps:
       - run: echo ${{ needs.check_feed.outputs.feed_output }} 
       - name: Post to discord
