@@ -26,7 +26,10 @@ jobs:
         with:
           path: |
             ./.rss_checker/cache
-          key: ncatelli-rss-feed-check-cache
+          key: ncatelli-rss-feed-check-cache-$(date '+%Y-%m-%d')
+          restore-keys: |
+            ncatelli-rss-feed-check-cache-$(date -d "1 day ago" '+%Y-%m-%d')
+            ncatelli-rss-feed-check-cache
       - name: Fix Cache Dir Permissions 
         run: chmod -R 777 .rss_checker/cache
       - name: Run Feed Check
