@@ -10,9 +10,23 @@ on:
     - cron: "0 15 * * *"
 
 jobs:
+  get_dates:
+    name: Run feed check 
+    runs-on: ubuntu-latest
+    outputs:
+      todays_date: ${{ steps.get_date.outputs.today }}
+      yesterdays_date: ${{ steps.get_date.outputs.yesterday }}
+    steps:
+      - name: Get Todays Date
+        id: todays_date
+        run: echo "::set-output name=today::$(date '+%Y-%m-%d')" 
+      - name: Get Yesterdays Date
+        id: yesterdays_date
+        run: echo "::set-output name=yesterday::$(date -d "1 day ago" '+%Y-%m-%d')" 
   check_feed:
     name: Run feed check 
     runs-on: ubuntu-latest
+    needs: get_dates
     outputs:
       feed_output: ${{ steps.feed_check.outputs.new }}
     steps:
@@ -26,9 +40,9 @@ jobs:
         with:
           path: |
             ./.rss_checker/cache
-          key: ncatelli-rss-feed-check-cache-$(date '+%Y-%m-%d')
+          key: ncatelli-rss-feed-check-cache-${{ needs.get_dates.outputs.today }}
           restore-keys: |
-            ncatelli-rss-feed-check-cache-$(date -d "1 day ago" '+%Y-%m-%d')
+            ncatelli-rss-feed-check-cache-${{ needs.get_dates.outputs.yesterday }}
             ncatelli-rss-feed-check-cache
       - name: Fix Cache Dir Permissions 
         run: chmod -R 777 .rss_checker/cache
