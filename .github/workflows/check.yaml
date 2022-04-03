@@ -44,9 +44,9 @@ jobs:
         with:
           path: |
             ./.rss_checker/cache
-          key: ncatelli-rss-feed-check-cache-${{ needs.get_dates.outputs.today }}
+          key: ncatelli-rss-feed-check-cache-${{ needs.get_dates.outputs.todays_date }}
           restore-keys: |
-            ncatelli-rss-feed-check-cache-${{ needs.get_dates.outputs.yesterday }}
+            ncatelli-rss-feed-check-cache-${{ needs.get_dates.outputs.yesterdays_date }}
             ncatelli-rss-feed-check-cache
       - name: Fix Cache Dir Permissions 
         run: chmod -R 777 .rss_checker/cache
