@@ -23,10 +23,6 @@ jobs:
       - name: Get Yesterdays Date
         id: yesterdays_date
         run: echo "::set-output name=date::$(date -d '1 day ago' '+%Y-%m-%d')" 
-      - name: echo test
-        run: |
-          echo "${{ steps.yesterdays_date.outputs.date }}"
-          echo "${{ steps.todays_date.outputs.date }}"
   check_feed:
     name: Run feed check 
     runs-on: ubuntu-latest
