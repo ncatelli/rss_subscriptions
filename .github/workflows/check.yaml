@@ -14,8 +14,8 @@ jobs:
     name: Fetch dates
     runs-on: ubuntu-latest
     outputs:
-      todays_date: ${{ steps.get_date.outputs.today }}
-      yesterdays_date: ${{ steps.get_date.outputs.yesterday }}
+      todays_date: ${{ steps.todays_date.outputs.today }}
+      yesterdays_date: ${{ steps.yesterdays_date.outputs.yesterday }}
     steps:
       - name: Get Todays Date
         id: todays_date
