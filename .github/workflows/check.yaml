@@ -11,7 +11,7 @@ on:
 
 jobs:
   get_dates:
-    name: Run feed check 
+    name: Fetch dates
     runs-on: ubuntu-latest
     outputs:
       todays_date: ${{ steps.get_date.outputs.today }}
