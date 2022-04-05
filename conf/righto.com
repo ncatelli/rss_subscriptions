@@ -1,0 +1,1 @@
+https://www.righto.com/feeds/posts/default
