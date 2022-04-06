@@ -1,0 +1,1 @@
+https://vintagecomputerstories.blogspot.com/feeds/posts/default
