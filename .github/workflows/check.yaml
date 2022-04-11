@@ -57,6 +57,6 @@ jobs:
       - name: Post to discord
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-        uses: Ilshidur/action-discord@0.3.2
+        uses: ncatelli/action-discord@115-add-wait-parameter-prefix
         with:
           args: ${{ needs.check_feed.outputs.feed_output }}
