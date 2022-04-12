@@ -46,7 +46,7 @@ jobs:
         run: chmod -R 777 .rss_checker/cache
       - name: Run Feed Check
         id: feed_check
-        run: echo "::set-output name=new::$(docker run --rm -v $PWD/.rss_checker/cache:/workdir/.rss_checker/cache -v $PWD/conf:/workdir/conf ghcr.io/ncatelli/rss_checker:0.2.0-pre -cache-path /workdir/.rss_checker/cache/ -conf-path /workdir/conf/)" 
+        run: echo "::set-output name=new::$(docker run --rm -v $PWD/.rss_checker/cache:/workdir/.rss_checker/cache -v $PWD/conf:/workdir/conf ghcr.io/ncatelli/rss_checker:0.1.0 -cache-path /workdir/.rss_checker/cache/ -conf-path /workdir/conf/)" 
   notify:
     name: Notify of new publications
     runs-on: ubuntu-latest
