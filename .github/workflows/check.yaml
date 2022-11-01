@@ -17,10 +17,10 @@ jobs:
     steps:
       - name: Get Todays Date
         id: todays_date
-        run: echo "::set-output name=date::$(date '+%Y-%m-%d')" 
+        run: echo "date=$(date '+%Y-%m-%d')" >> $GITHUB_OUTPUT 
       - name: Get Yesterdays Date
         id: yesterdays_date
-        run: echo "::set-output name=date::$(date -d '1 day ago' '+%Y-%m-%d')" 
+        run: echo "date=$(date -d '1 day ago' '+%Y-%m-%d')" >> $GITHUB_OUTPUT 
   check_feed:
     name: Run feed check 
     runs-on: ubuntu-latest
@@ -46,7 +46,8 @@ jobs:
         run: chmod -R 777 .rss_checker/cache
       - name: Run Feed Check
         id: feed_check
-        run: echo "::set-output name=new::$(docker run --rm -v $PWD/.rss_checker/cache:/workdir/.rss_checker/cache -v $PWD/conf:/workdir/conf ghcr.io/ncatelli/rss_checker:0.1.0 -cache-path /workdir/.rss_checker/cache/ -conf-path /workdir/conf/)" 
+        run: echo "new=$(docker run --rm -v $PWD/.rss_checker/cache:/workdir/.rss_checker/cache -v $PWD/conf:/workdir/conf ghcr.io/ncatelli/rss_checker:0.1.0 -cache-path /workdir/.rss_checker/cache/ -conf-path /workdir/conf/)" >> $GITHUB_OUTPUT
+
   notify:
     name: Notify of new publications
     runs-on: ubuntu-latest
