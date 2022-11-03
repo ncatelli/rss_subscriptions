@@ -46,7 +46,12 @@ jobs:
         run: chmod -R 777 .rss_checker/cache
       - name: Run Feed Check
         id: feed_check
-        run: echo "new=$(docker run --rm -v $PWD/.rss_checker/cache:/workdir/.rss_checker/cache -v $PWD/conf:/workdir/conf ghcr.io/ncatelli/rss_checker:0.1.0 -cache-path /workdir/.rss_checker/cache/ -conf-path /workdir/conf/)" >> $GITHUB_OUTPUT
+        run: |
+          NEW_LINKS=$(docker run --rm -v $PWD/.rss_checker/cache:/workdir/.rss_checker/cache -v $PWD/conf:/workdir/conf ghcr.io/ncatelli/rss_checker:0.1.0 -cache-path /workdir/.rss_checker/cache/ -conf-path /workdir/conf/)"
+          NEW_LINKS="${NEW_LINKS//'%'/'%25'}"
+          NEW_LINKS="${NEW_LINKS//$'\n'/'%0A'}"
+          NEW_LINKS="${NEW_LINKS//$'\r'/'%0D'}"
+          echo "new=$NEW_LINKS" >> $GITHUB_OUTPUT
 
   notify:
     name: Notify of new publications
