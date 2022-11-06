@@ -61,7 +61,7 @@ jobs:
     steps:
       - run: echo ${{ needs.check_feed.outputs.feed_output }} 
       - run: |
-          NEW_LINKS=${{ needs.check_feed.outputs.feed_output }} 
+          NEW_LINKS='${{ needs.check_feed.outputs.feed_output }}'
           NEW_LINKS="${NEW_LINKS//'%25'/'%'}"
           NEW_LINKS="${NEW_LINKS//$'%0A'/'\n'}"
           NEW_LINKS="${NEW_LINKS//$'%0D'/'\r'}"
