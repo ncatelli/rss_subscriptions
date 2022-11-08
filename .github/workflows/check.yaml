@@ -48,9 +48,6 @@ jobs:
         id: feed_check
         run: |
           NEW_LINKS="$(docker run --rm -v $PWD/.rss_checker/cache:/workdir/.rss_checker/cache -v $PWD/conf:/workdir/conf ghcr.io/ncatelli/rss_checker:0.1.0 -cache-path /workdir/.rss_checker/cache/ -conf-path /workdir/conf/)"
-          NEW_LINKS="${NEW_LINKS//'%'/'%25'}"
-          NEW_LINKS="${NEW_LINKS//$'\n'/'%0A'}"
-          NEW_LINKS="${NEW_LINKS//$'\r'/'%0D'}"
           echo "new=$NEW_LINKS" >> $GITHUB_OUTPUT
 
   notify:
@@ -61,10 +58,7 @@ jobs:
     steps:
       - run: echo ${{ needs.check_feed.outputs.feed_output }} 
       - run: |
-          NEW_LINKS='${{ needs.check_feed.outputs.feed_output }}'
-          NEW_LINKS="${NEW_LINKS//'%25'/'%'}"
-          NEW_LINKS="${NEW_LINKS//$'%0A'/'\n'}"
-          NEW_LINKS="${NEW_LINKS//$'%0D'/'\r'}"
+          NEW_LINKS="${{ needs.check_feed.outputs.feed_output }}"
           echo "new_links=$NEW_LINKS" >> $GITHUB_ENV
       - name: Post to discord
         env:
