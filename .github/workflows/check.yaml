@@ -47,9 +47,6 @@ jobs:
       - name: Run Feed Check
         id: feed_check
         run: |
-              echo 'JSON_RESPONSE<<EOF' >> $GITHUB_OUTPUT
-              curl https://example.com >> $GITHUB_OUTPUT
-              echo 'EOF' >> $GITHUB_OUTPUT
           echo 'new<<EOF' >> $GITHUB_OUTPUT
           echo "$(docker run --rm -v $PWD/.rss_checker/cache:/workdir/.rss_checker/cache -v $PWD/conf:/workdir/conf ghcr.io/ncatelli/rss_checker:0.1.0 -cache-path /workdir/.rss_checker/cache/ -conf-path /workdir/conf/)" >> $GITHUB_OUTPUT
           echo 'EOF' >> $GITHUB_OUTPUT
