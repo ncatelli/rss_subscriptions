@@ -46,9 +46,7 @@ jobs:
         run: chmod -R 777 .rss_checker/cache
       - name: Run Feed Check
         id: feed_check
-        run: |
-          NEW_LINKS="$(docker run --rm -v $PWD/.rss_checker/cache:/workdir/.rss_checker/cache -v $PWD/conf:/workdir/conf ghcr.io/ncatelli/rss_checker:0.1.0 -cache-path /workdir/.rss_checker/cache/ -conf-path /workdir/conf/)"
-          echo "new=$NEW_LINKS" >> $GITHUB_OUTPUT
+        run: echo "new=$(docker run --rm -v $PWD/.rss_checker/cache:/workdir/.rss_checker/cache -v $PWD/conf:/workdir/conf ghcr.io/ncatelli/rss_checker:0.1.0 -cache-path /workdir/.rss_checker/cache/ -conf-path /workdir/conf/)" >> $GITHUB_OUTPUT
 
   notify:
     name: Notify of new publications
@@ -57,12 +55,9 @@ jobs:
     if: ${{ github.event_name != 'pull_request' && contains(needs.check_feed.outputs.feed_output, 'http') }}
     steps:
       - run: echo ${{ needs.check_feed.outputs.feed_output }} 
-      - run: |
-          NEW_LINKS="${{ needs.check_feed.outputs.feed_output }}"
-          echo "new_links=$NEW_LINKS" >> $GITHUB_ENV
       - name: Post to discord
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         uses: ncatelli/action-discord@115-add-wait-parameter-prefix
         with:
-          args: ${{ env.new_links }}
+          args: ${{ needs.check_feed.outputs.feed_output }}
