@@ -57,10 +57,10 @@ jobs:
     needs: check_feed
     if: ${{ github.event_name != 'pull_request' && contains(needs.check_feed.outputs.feed_output, 'http') }}
     steps:
-      - run: echo ${{ needs.check_feed.outputs.feed_output }} 
+      - run: echo "${{ needs.check_feed.outputs.feed_output }}"
       - name: Post to discord
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         uses: ncatelli/action-discord@115-add-wait-parameter-prefix
         with:
-          args: ${{ needs.check_feed.outputs.feed_output }}
+          args: "${{ needs.check_feed.outputs.feed_output }}"
