@@ -48,7 +48,7 @@ jobs:
         id: feed_check
         run: |
           echo 'new<<EOF' >> $GITHUB_OUTPUT
-          echo "$(docker run -t --rm -v $PWD/.rss_checker/cache:/workdir/.rss_checker/cache -v $PWD/conf:/workdir/conf ghcr.io/ncatelli/rss_checker:0.1.0 -cache-path /workdir/.rss_checker/cache/ -conf-path /workdir/conf/)" >> $GITHUB_OUTPUT
+          echo "$(docker run -t --rm -v $PWD/.rss_checker/cache:/workdir/.rss_checker/cache -v $PWD/conf:/workdir/conf ghcr.io/ncatelli/rss_checker:0.1.1 -cache-path /workdir/.rss_checker/cache/ -conf-path /workdir/conf/)" >> $GITHUB_OUTPUT
           echo 'EOF' >> $GITHUB_OUTPUT
 
   notify:
