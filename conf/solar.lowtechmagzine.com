@@ -1,1 +1,1 @@
-https://solar.lowtechmagazine.com/feeds/all-en.atom.xml
+https://solar.lowtechmagazine.com/posts/index.xml
